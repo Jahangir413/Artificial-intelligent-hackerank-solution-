@@ -1,0 +1,31 @@
+import math
+
+x = [15, 12, 8, 8, 7, 7, 7, 6, 5, 3]
+y = [10, 25, 17, 11, 13, 17, 20, 13, 9, 15]
+
+# Calculate mean of x and y
+sum_x, sum_y = sum(x), sum(y)
+
+mean_x = sum_x / len(x)
+mean_y = sum_y / len(y)
+
+# Calculate r = A/sqrt(B*C)
+A, B, C = 0, 0, 0
+
+for i in range(len(x)):
+    A += (x[i] - mean_x) * (y[i] - mean_y)
+    B += (x[i] - mean_x) ** 2
+    C += (y[i] - mean_y) ** 2
+
+# Correlation Coefficient
+r = A / math.sqrt(B * C)
+
+# Standard deviations of x and y
+std_x = math.sqrt(B / len(x))
+std_y = math.sqrt(C / len(y))
+
+# Slope (b)
+ans = r * (std_y / std_x)
+
+# Print result with 3 decimal places
+print("%.3f" % ans)
