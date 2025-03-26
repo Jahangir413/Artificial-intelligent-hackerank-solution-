@@ -1,0 +1,41 @@
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+import sys
+import statistics
+import math
+from collections import Counter
+
+# Read input
+N = int(input().strip())
+numbers = list(map(int, input().strip().split()))
+
+# Mean
+mean_value = sum(numbers) / N
+
+# Median
+sorted_numbers = sorted(numbers)
+if N % 2 == 1:
+    median_value = sorted_numbers[N // 2]
+else:
+    median_value = (sorted_numbers[N // 2 - 1] + sorted_numbers[N // 2]) / 2
+
+# Mode (smallest numerically in case of tie)
+frequency = Counter(numbers)
+max_freq = max(frequency.values())
+mode_values = [key for key, val in frequency.items() if val == max_freq]
+mode_value = min(mode_values)  # Get the smallest mode if there are multiple
+
+# Standard Deviation
+variance = sum((x - mean_value) ** 2 for x in numbers) / N
+std_dev = math.sqrt(variance)
+
+# 95% Confidence Interval
+margin_of_error = 1.96 * (std_dev / math.sqrt(N))
+lower_bound = mean_value - margin_of_error
+upper_bound = mean_value + margin_of_error
+
+# Print output with one decimal place for required values
+print(f"{mean_value:.1f}")
+print(f"{median_value:.1f}")
+print(mode_value)
+print(f"{std_dev:.1f}")
+print(f"{lower_bound:.1f} {upper_bound:.1f}")
