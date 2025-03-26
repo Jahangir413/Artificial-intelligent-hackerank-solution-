@@ -1,7 +1,4 @@
-#!/usr/bin/python
-#coding:utf-8
 import sys
-#from sklearn.svm import LinearSVC #SVM cannot be used somehow.
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction import DictVectorizer
 if sys.version_info[0]>=3: raw_input=input
