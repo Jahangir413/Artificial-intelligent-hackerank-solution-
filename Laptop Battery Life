@@ -1,0 +1,40 @@
+import numpy as np
+import sys
+from sklearn.linear_model import LinearRegression
+
+# Read training data
+data = []
+with open("trainingdata.txt", "r") as file:
+    for line in file:
+        charge_time, battery_life = map(float, line.strip().split(","))
+        data.append((charge_time, battery_life))
+
+# Convert to numpy array
+data = np.array(data)
+X = data[:, 0].reshape(-1, 1)  # Charging time (features)
+y = data[:, 1]  # Battery life (target)
+
+# Identify potential saturation point (cap where battery life stops increasing)
+max_charge = 4.0  # Assume after 4 hours, battery life stabilizes (adjustable)
+max_battery_life = max(y)  # Highest battery life observed
+
+# Train linear regression only for charge times <= 4 hours
+valid_indices = np.where(X <= max_charge)[0]
+X_train = X[valid_indices]
+y_train = y[valid_indices]
+
+# Train the model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Read test input
+test_input = float(input().strip())
+
+# Predict battery life
+if test_input > max_charge:
+    predicted_battery_life = max_battery_life  # Cap at max observed battery life
+else:
+    predicted_battery_life = model.predict([[test_input]])[0]
+
+# Print output rounded to 2 decimal places
+print(f"{predicted_battery_life:.2f}")
